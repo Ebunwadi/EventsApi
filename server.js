@@ -18,6 +18,10 @@ app.use("/auth", require("./routes/authRoute"));
 app.use("/event", require("./routes/eventRoute"));
 app.use("/user", require("./routes/userRoute"));
 
+app.get('/', (req, res) => {
+  res.redirect('https://documenter.getpostman.com/view/10653175/2s9Xy2QXg3')
+})
+
 // error handling middleware
 app.use(errorHandler);
 

@@ -97,7 +97,7 @@ module.exports.DeleteAuthUserEvent = async (req, res) =>{
     const event = await Event.findOne({_id: eventId});
 
     //is the user the owner of event
-    if(event.createdBy.toString() !== req.authUser._id.toString()) return res.status(401).json({message: 'You are unauthorized to delete this event!!', success: false});
+    if(event.createdBy.toString() !== req.user._id.toString()) return res.status(401).json({message: 'You are unauthorized to delete this event!!', success: false});
     if(!event) return res.status(404).json({message: 'Not found!!', success: 'false'});
     //Delete the event.
     await Event.deleteOne({_id: eventId}, req.body);
