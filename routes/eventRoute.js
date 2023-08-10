@@ -13,10 +13,10 @@ const {
 const { auth } = require("../middlewares/jwtAuth");
 
 router.post("/", auth, createEvent);
+router.get("/available", getAvailableEvents);
 router.get("/", getAllEvents);
 router.get("/:id", getEvent);
 router.put("/:id", updateEvent);
-router.get("/available", getAvailableEvents);
 router.get("/purchase/:id", auth, purchaseTicket);
 router.get("/myevent/:id", auth, getMyEvent);
 module.exports = router;
