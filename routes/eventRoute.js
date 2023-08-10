@@ -9,14 +9,16 @@ const {
   getEvent,
   getMyEvent,
   updateEvent,
+  DeleteAuthUserEvent
 } = require("../controllers/event");
 const { auth } = require("../middlewares/jwtAuth");
 
-router.post("/", auth, createEvent);
 router.get("/available", getAvailableEvents);
+router.post("/", auth, createEvent);
 router.get("/", getAllEvents);
+router.put("/:id", auth, updateEvent);
 router.get("/:id", getEvent);
-router.put("/:id", updateEvent);
 router.get("/purchase/:id", auth, purchaseTicket);
 router.get("/myevent/:id", auth, getMyEvent);
+router.delete('/delete/:eventId', auth, DeleteAuthUserEvent)
 module.exports = router;

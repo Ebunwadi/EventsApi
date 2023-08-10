@@ -80,6 +80,26 @@ module.exports.updateEvent = async (req, res) => {
     { $set: req.body },
     { new: true },
   );
-  if (!event) return res.status(400).json({ message: "event not found o" });
+  if (!event) return res.status(400).json({ message: "event not found" });
+  if (event.createdBy.equals(req.user._id)) {
   return res.json({ data: event, success: true });
+  }
+  else {
+      return res
+      .status(403)
+      .json({ message: "you cannot update an event you didnt create" });
+     } 
+  
 };
+
+module.exports.DeleteAuthUserEvent = async (req, res) =>{
+    const eventId = req.params.eventId;
+    const event = await Event.findOne({_id: eventId});
+
+    //is the user the owner of event
+    if(event.createdBy.toString() !== req.authUser._id.toString()) return res.status(401).json({message: 'You are unauthorized to delete this event!!', success: false});
+    if(!event) return res.status(404).json({message: 'Not found!!', success: 'false'});
+    //Delete the event.
+    await Event.deleteOne({_id: eventId}, req.body);
+    return res.status(200).json({message: 'Event deleted successfully!!', success: true});
+}
